@@ -1584,8 +1584,14 @@ public class RexProgramTest extends RexProgramBuilderBase {
     // "a != 1 or a = 1" ==> "true"
     checkSimplifyFilter(
         or(ne(aRef, literal1),
-            eq(aRef, literal1)),
+           eq(aRef, literal1)),
         "true");
+
+    // "(2 > a && b = 2) or 1 < a" can't be simplified
+    checkSimplifyFilter(
+        or(and(gt(literal2, aRef), eq(bRef, literal2)),
+           lt(literal1, aRef)),
+        "OR(AND(>(2, ?0.a), =(?0.b, 2)), <(1, ?0.a))");
 
     // TODO: make this simplify to "true"
     checkSimplifyFilter(

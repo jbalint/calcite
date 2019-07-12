@@ -514,6 +514,7 @@ public class RexSimplify {
           RelOptPredicateList.of(rexBuilder, ImmutableList.of(inverse)));
       simplify = simplify.withPredicates(newPredicates);
     }
+    simplify = this; // clear the "withPredicates"
     for (int i = 0; i < terms.size(); i++) {
       final RexNode t = terms.get(i);
       if (Predicate.of(t) != null) {
